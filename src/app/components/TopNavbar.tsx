@@ -256,8 +256,8 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
                   onClick={() => handleNavClick(item.page)}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors ${
                     currentPage === item.page
-                      ? 'bg-blue-100 text-blue-600'
-                      : 'theme-text-secondary hover:bg-gray-100'
+                      ? 'bg-blue-100 text-teal-600'
+                      : 'text-teal-600 hover:bg-gray-100'
                   }`}
                 >
                   <item.icon className="h-5 w-5" />
@@ -280,8 +280,8 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
                   onClick={() => handleNavClick(item.page)}
                   className={`w-full text-left px-4 py-2 rounded-lg font-medium transition-colors ${
                     currentPage === item.page
-                      ? 'bg-blue-100 text-white'
-                      : 'theme-text-secondary hover:bg-gray-100'
+                      ? 'bg-blue-100 text-teal-600'
+                      : 'text-teal-600 hover:bg-gray-100'
                   }`}
                 >
                   {item.name}

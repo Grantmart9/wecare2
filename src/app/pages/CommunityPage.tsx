@@ -239,7 +239,7 @@ const CommunityPage = ({ handlePage }: CommunityPageProps) => {
           {!user && (
             <motion.button
               onClick={() => handlePage('Login')}
-              className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-100 transition duration-300"
+              className="bg-white text-teal-600 font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-100 transition duration-300"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}

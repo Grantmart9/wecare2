@@ -124,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, handlePage, isOpen, setI
                       handlePage(item.page);
                     }}
                     className={`w-full flex items-center rounded-lg px-3 py-3 text-left transition-colors ${currentPage === item.page
-                      ? "theme-bg-tertiary text-blue-600 font-medium"
+                      ? "theme-bg-tertiary text-teal-600 font-medium"
                       : "theme-text-secondary hover:theme-bg-tertiary"
                       }`}
                   >
@@ -175,7 +175,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, handlePage, isOpen, setI
               {!isLoading && (
                 user ? (
                   <div className="flex items-center space-x-2 p-2 theme-bg-secondary rounded-lg">
-                    <AccountBoxIcon className="h-5 w-5 text-blue-600" />
+                    <AccountBoxIcon className="h-5 w-5 text-teal-600" />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium theme-text-primary truncate">
                         {user.email || 'User'}
@@ -186,7 +186,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, handlePage, isOpen, setI
                 ) : (
                   <Button
                     variant="contained"
-                    className="text-white bg-blue-600 hover:bg-blue-800"
+                    className="text-white bg-teal-600 hover:bg-blue-800"
                     fullWidth
                     startIcon={<LoginIcon />}
                     onClick={handleLoginPage}
@@ -209,7 +209,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, handlePage, isOpen, setI
                 handlePage(item.page);
               }}
               className={`flex flex-col items-center justify-center py-2 px-1 ${currentPage === item.page
-                ? "text-blue-600"
+                ? "text-teal-600"
                 : "theme-text-secondary"
                 }`}
             >

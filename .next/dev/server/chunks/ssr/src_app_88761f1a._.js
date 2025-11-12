@@ -369,7 +369,7 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                 delay: 0.1
                                             },
                                             onClick: ()=>handleNavClick(item.page),
-                                            className: `w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors ${currentPage === item.page ? 'bg-blue-100 text-blue-600' : 'theme-text-secondary hover:bg-gray-100'}`,
+                                            className: `w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium transition-colors ${currentPage === item.page ? 'bg-blue-100 text-teal-600' : 'text-teal-600 hover:bg-gray-100'}`,
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(item.icon, {
                                                     className: "h-5 w-5"
@@ -411,7 +411,7 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                 delay: 0.2 + index * 0.05
                                             },
                                             onClick: ()=>handleNavClick(item.page),
-                                            className: `w-full text-left px-4 py-2 rounded-lg font-medium transition-colors ${currentPage === item.page ? 'bg-blue-100 text-white' : 'theme-text-secondary hover:bg-gray-100'}`,
+                                            className: `w-full text-left px-4 py-2 rounded-lg font-medium transition-colors ${currentPage === item.page ? 'bg-blue-100 text-teal-600' : 'text-teal-600 hover:bg-gray-100'}`,
                                             children: item.name
                                         }, item.name, false, {
                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
