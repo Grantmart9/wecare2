@@ -118,7 +118,9 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
               <div className="gradient-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center font-bold shadow-lg">
                 WC
               </div>
-              <span className="text-3xl font-bold text-white transition-colors duration-300">
+              <span className={`text-3xl font-bold transition-colors duration-300 ${
+                isScrolled ? 'text-gray-700' : 'text-white'
+              }`}>
                 WeCare
               </span>
             </motion.div>
@@ -136,7 +138,11 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
                     className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
                       currentPage === item.page
                         ? 'theme-bg-accent text-gray-700 shadow-md'
-                        : `text-white hover:text-white hover:theme-bg-tertiary`
+                        : `${
+                            isScrolled
+                              ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
+                              : 'text-white hover:text-white hover:theme-bg-tertiary'
+                          }`
                     }`}
                   >
                     <item.icon className="h-5 w-5" />
@@ -156,9 +162,9 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
                     className={`px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
                       currentPage === item.page
                         ? 'bg-transparent text-white'
-                        : `hover:bg-gray-100 text-gray-500 ${
+                        : `${
                             isScrolled
-                              ? 'text-white hover:text-white-500'
+                              ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
                               : 'text-white hover:text-white hover:bg-white/10'
                           }`
                     }`}
@@ -216,9 +222,9 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
                 }`}
               >
                 {isMobileMenuOpen ? (
-                  <CloseIcon className="h-6 w-6 text-white" />
+                  <CloseIcon className={`h-6 w-6 ${isScrolled ? 'text-gray-600' : 'text-white'}`} />
                 ) : (
-                  <MenuIcon className="h-6 w-6 text-white" />
+                  <MenuIcon className={`h-6 w-6 ${isScrolled ? 'text-gray-600' : 'text-white'}`} />
                 )}
               </motion.button>
             </div>

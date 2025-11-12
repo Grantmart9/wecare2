@@ -166,7 +166,7 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "text-3xl font-bold text-white transition-colors duration-300",
+                                            className: `text-3xl font-bold transition-colors duration-300 ${isScrolled ? 'text-gray-700' : 'text-white'}`,
                                             children: "WeCare"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
@@ -192,31 +192,31 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                         scale: 0.95
                                                     },
                                                     onClick: ()=>handleNavClick(item.page),
-                                                    className: `flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-200 ${currentPage === item.page ? 'theme-bg-accent text-gray-700 shadow-md' : `text-white hover:text-white hover:theme-bg-tertiary`}`,
+                                                    className: `flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-200 ${currentPage === item.page ? 'theme-bg-accent text-gray-700 shadow-md' : `${isScrolled ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' : 'text-white hover:text-white hover:theme-bg-tertiary'}`}`,
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(item.icon, {
                                                             className: "h-5 w-5"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                            lineNumber: 142,
+                                                            lineNumber: 148,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             children: item.name
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                            lineNumber: 143,
+                                                            lineNumber: 149,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, item.name, true, {
                                                     fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                    lineNumber: 131,
+                                                    lineNumber: 133,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                            lineNumber: 129,
+                                            lineNumber: 131,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -229,16 +229,16 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                         scale: 0.95
                                                     },
                                                     onClick: ()=>handleNavClick(item.page),
-                                                    className: `px-3 py-2 rounded-lg text-sm transition-all duration-200 ${currentPage === item.page ? 'bg-transparent text-white' : `hover:bg-gray-100 text-gray-500 ${isScrolled ? 'text-white hover:text-white-500' : 'text-white hover:text-white hover:bg-white/10'}`}`,
+                                                    className: `px-3 py-2 rounded-lg text-sm transition-all duration-200 ${currentPage === item.page ? 'bg-transparent text-white' : `${isScrolled ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' : 'text-white hover:text-white hover:bg-white/10'}`}`,
                                                     children: item.name
                                                 }, item.name, false, {
                                                     fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                    lineNumber: 151,
+                                                    lineNumber: 157,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                            lineNumber: 149,
+                                            lineNumber: 155,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -247,7 +247,7 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                 className: "block w-28"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                lineNumber: 175,
+                                                lineNumber: 181,
                                                 columnNumber: 21
                                             }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
                                                 whileHover: {
@@ -272,7 +272,7 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                     },
                                                     startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Login$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                                         fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                        lineNumber: 195,
+                                                        lineNumber: 201,
                                                         columnNumber: 36
                                                     }, void 0),
                                                     onClick: handleLoginPage,
@@ -280,23 +280,23 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                     children: "Login"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                    lineNumber: 181,
+                                                    lineNumber: 187,
                                                     columnNumber: 23
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                lineNumber: 177,
+                                                lineNumber: 183,
                                                 columnNumber: 21
                                             }, ("TURBOPACK compile-time value", void 0)))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                            lineNumber: 172,
+                                            lineNumber: 178,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                    lineNumber: 127,
+                                    lineNumber: 129,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -308,26 +308,26 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                         onClick: ()=>setIsMobileMenuOpen(!isMobileMenuOpen),
                                         className: `p-2 rounded-lg ${isScrolled ? 'theme-text-primary hover:bg-gray-100' : 'theme-text-primary hover:bg-white/10'}`,
                                         children: isMobileMenuOpen ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Close$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                            className: "h-6 w-6 text-white"
+                                            className: `h-6 w-6 ${isScrolled ? 'text-gray-600' : 'text-white'}`
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                            lineNumber: 219,
+                                            lineNumber: 225,
                                             columnNumber: 19
                                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Menu$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                            className: "h-6 w-6 text-white"
+                                            className: `h-6 w-6 ${isScrolled ? 'text-gray-600' : 'text-white'}`
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                            lineNumber: 221,
+                                            lineNumber: 227,
                                             columnNumber: 19
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                        lineNumber: 209,
+                                        lineNumber: 215,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                    lineNumber: 208,
+                                    lineNumber: 214,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
@@ -375,25 +375,25 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                     className: "h-5 w-5"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                    lineNumber: 257,
+                                                    lineNumber: 263,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     children: item.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                    lineNumber: 258,
+                                                    lineNumber: 264,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, item.name, true, {
                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                            lineNumber: 242,
+                                            lineNumber: 248,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)))
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                    lineNumber: 240,
+                                    lineNumber: 246,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -415,12 +415,12 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                             children: item.name
                                         }, item.name, false, {
                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                            lineNumber: 266,
+                                            lineNumber: 272,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)))
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                    lineNumber: 264,
+                                    lineNumber: 270,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -432,7 +432,7 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                 className: "h-5 w-5 text-blue-600"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                lineNumber: 291,
+                                                lineNumber: 297,
                                                 columnNumber: 21
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -443,7 +443,7 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                         children: user.email || 'User'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                        lineNumber: 293,
+                                                        lineNumber: 299,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -451,49 +451,49 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                                                         children: "Signed in"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                        lineNumber: 296,
+                                                        lineNumber: 302,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                                lineNumber: 292,
+                                                lineNumber: 298,
                                                 columnNumber: 21
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                        lineNumber: 290,
+                                        lineNumber: 296,
                                         columnNumber: 19
                                     }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__["Button"], {
                                         variant: "contained",
                                         className: "w-full text-white bg-blue-600 hover:bg-blue-700",
                                         startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Login$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                            lineNumber: 303,
+                                            lineNumber: 309,
                                             columnNumber: 32
                                         }, void 0),
                                         onClick: handleLoginPage,
                                         children: "Login"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                        lineNumber: 300,
+                                        lineNumber: 306,
                                         columnNumber: 19
                                     }, ("TURBOPACK compile-time value", void 0)))
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/TopNavbar.tsx",
-                                    lineNumber: 287,
+                                    lineNumber: 293,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/components/TopNavbar.tsx",
-                            lineNumber: 238,
+                            lineNumber: 244,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/TopNavbar.tsx",
-                        lineNumber: 229,
+                        lineNumber: 235,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
@@ -506,7 +506,7 @@ const TopNavbar = ({ currentPage, handlePage, scrollToTop, sx })=>{
                 className: "h-16"
             }, void 0, false, {
                 fileName: "[project]/src/app/components/TopNavbar.tsx",
-                lineNumber: 316,
+                lineNumber: 322,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
