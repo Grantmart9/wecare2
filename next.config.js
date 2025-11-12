@@ -14,11 +14,9 @@ const nextConfig = {
     ],
     unoptimized: true, // Add this for static export
   },
-  // Conditionally set output based on environment
-  ...(process.env.NODE_ENV === 'production' ? {
-    output: 'export',
-    trailingSlash: true, // Add trailing slashes for better CPanel compatibility
-  } : {}),
+  // Always export static files for "out" folder generation
+  output: 'export',
+  trailingSlash: true, // Add trailing slashes for better CPanel compatibility
   // API rewrites removed - using Supabase directly instead of custom backend
   // Set turbopack root to silence lockfile warning
   turbopack: {
