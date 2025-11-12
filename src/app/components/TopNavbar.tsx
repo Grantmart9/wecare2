@@ -118,8 +118,8 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
               <div className="gradient-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center font-bold shadow-lg">
                 WC
               </div>
-              <span className={`text-3xl font-bold transition-colors duration-300 ${
-                isScrolled ? 'text-gray-700' : 'text-white'
+              <span className={`bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent text-3xl font-bold transition-colors duration-300 ${
+                !isScrolled ? 'text-white' : ' bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent'
               }`}>
                 WeCare
               </span>

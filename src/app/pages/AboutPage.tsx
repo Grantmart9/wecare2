@@ -83,7 +83,7 @@ export default function AboutPage() {
           >
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-3 border border-white border-opacity-30">
-                <span className="text-white font-medium">Join our community of changemakers</span>
+                <span className="bg-gradient-to-r from-teal-600 to-orange-600 bg-clip-text text-transparent">Join our community of changemakers</span>
               </div>
             </div>
           </motion.div>
