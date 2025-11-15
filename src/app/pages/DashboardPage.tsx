@@ -744,7 +744,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                                     variant="contained"
                                     onClick={handleSave}
                                     disabled={isSaving || profileLoading}
-                                    className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-3 px-8 rounded-full transition duration-300"
+                                    className="bg-teal-600 hover:bg-teal-700 disabled:bg-teal-300 text-white font-bold py-3 px-8 rounded-full transition duration-300"
                                 >
                                     {isSaving ? (
                                         <>
@@ -775,14 +775,14 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                                 <Image src={avatar} alt="Profile" className="mx-auto rounded-full w-32 h-32 mb-6" />
                                 {profileLoading ? (
                                     <div className="text-center">
-                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600 mx-auto mb-2"></div>
                                         <p className="text-gray-600">Loading profile...</p>
                                     </div>
                                 ) : (
                                     <>
                                         {profileLoading ? (
                                             <div className="text-center">
-                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600 mx-auto mb-2"></div>
                                                 <p className="text-gray-600">Loading profile...</p>
                                             </div>
                                         ) : (
@@ -795,7 +795,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                                 )}
                                 <Button
                                     onClick={() => handleProfile()}
-                                    className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full transition duration-300"
+                                    className="mt-4 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-6 rounded-full transition duration-300"
                                 >
                                     Edit Profile
                                 </Button>
@@ -921,7 +921,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                         <div className="flex justify-center mt-8">
                             <Button
                                 variant="contained"
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300"
+                                className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full transition duration-300"
                             >
                                 Update Password
                             </Button>
@@ -945,7 +945,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                         <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
                             <div className="text-4xl mb-4">📦</div>
                             <h3 className="text-xl font-bold text-gray-800 mb-2">Total Donations</h3>
-                            <p className="text-3xl font-bold text-blue-600">
+                            <p className="text-3xl font-bold text-teal-600">
                                 {donationsLoading ? (
                                     <span className="text-lg">Loading...</span>
                                 ) : (
@@ -981,7 +981,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                         <h3 className="text-2xl font-bold text-gray-800 mb-6">Recent Activity</h3>
                         {activityLoading ? (
                             <div className="text-center py-8">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600 mx-auto mb-4"></div>
                                 <p className="text-gray-600">Loading recent activity...</p>
                             </div>
                         ) : recentActivity.length === 0 ? (
@@ -995,7 +995,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                                 <div className="space-y-4">
                                     {getPaginatedActivities().map((activity) => (
                                         <div key={activity.id} className="flex items-center p-4 bg-gray-50 rounded-lg">
-                                            <div className="text-blue-600 text-2xl mr-4">
+                                            <div className="text-teal-600 text-2xl mr-4">
                                                 {getActivityIcon(activity.type)}
                                             </div>
                                             <div className="flex-1">
@@ -1066,7 +1066,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                                     <p className="font-medium">Email Notifications</p>
                                     <p className="text-gray-600 text-sm">Receive email updates</p>
                                 </div>
-                                <div className="w-12 h-6 bg-blue-600 rounded-full p-1">
+                                <div className="w-12 h-6 bg-teal-600 rounded-full p-1">
                                     <div className="bg-white w-4 h-4 rounded-full"></div>
                                 </div>
                             </div>
@@ -1255,7 +1255,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
         return (
             <div className="min-h-screen theme-bg-secondary flex items-center justify-center transition-colors duration-300">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
                     <p className="theme-text-secondary">Loading...</p>
                 </div>
             </div>
@@ -1284,7 +1284,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="bg-white rounded-2xl shadow-lg p-8 text-center"
                     >
-                        <LoginIcon className="h-16 w-16 text-blue-600 mx-auto mb-4" />
+                        <LoginIcon className="h-16 w-16 text-teal-600 mx-auto mb-4" />
                         <h2 className="text-2xl font-bold text-gray-800 mb-4">Welcome to WeCare</h2>
                         <p className="text-gray-600 mb-6">
                             Sign in to access your dashboard, track your donations, and manage your profile.
@@ -1294,7 +1294,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                             variant="contained"
                             size="large"
                             startIcon={<LoginIcon />}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full"
+                            className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full"
                         >
                             Go to Login Page
                         </Button>
@@ -1354,7 +1354,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ handlePage, scrollToTop }
                             }}
                             key={i}
                             className="mb-8 bg-white rounded-2xl shadow-lg p-6">
-                            <h3 className="text-black text-2xl font-bold mb-4">{section.name}</h3>
+                            <h3 className="text-gray-800 text-2xl font-bold mb-4">{section.name}</h3>
                             <div className="flex flex-col gap-2">
                                 {section.buttons.map((item, j) => (
                                     <motion.div

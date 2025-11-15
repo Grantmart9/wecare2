@@ -763,13 +763,173 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
       )
     }
 
-    const DonateElectronics = () => {
+    const DonateClothing = () => {
       const [formData, setFormData] = useState<FormData>({
-        delivery_type: "Pick", // Default to valid value
+        delivery_type: "Pick",
         description: "",
-        brand: "",
+        gender: "",
+        quantity: "",
       });
+      const [loading, setLoading] = useState<boolean>(false);
 
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+      };
+
+      const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user) {
+            alert("Please log in to submit a donation");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.delivery_type || !['Pick', 'Drop'].includes(formData.delivery_type)) {
+            alert("Please select a delivery type");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.description?.trim()) {
+            alert("Please provide a description");
+            setLoading(false);
+            return;
+          }
+
+          const { error: userError } = await supabase
+            .from("users")
+            .upsert([{
+              id: user.id,
+              email: user.email,
+              name: user.user_metadata?.name || user.email!.split('@')[0]
+            }], { onConflict: 'id' });
+
+          if (userError) {
+            console.error("Error creating user record:", userError);
+            alert("Error setting up user account. Please try logging out and back in.");
+            setLoading(false);
+            return;
+          }
+
+          const { error } = await supabase
+            .from("donations")
+            .insert([{
+              user_id: user.id,
+              category: "Clothing",
+              ...formData
+            }]);
+
+          if (error) {
+            console.error("Error submitting donation:", error.message);
+            alert(`Error submitting donation: ${error.message}`);
+          } else {
+            alert(PopUpMessage);
+            setFormData({ delivery_type: "Pick", description: "", gender: "", quantity: "" });
+            setTimeout(() => handlePage('Dashboard'), 1500);
+          }
+        } catch (err) {
+          console.error("Unexpected error:", err);
+          alert("An unexpected error occurred. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      return (
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-3xl shadow-xl border border-teal-100 p-10"
+          >
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-200">
+                <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+                Donate Clothing
+              </h2>
+              <p className="text-gray-600">
+                Help provide essential clothing to those in need
+              </p>
+            </div>
+  
+            <form className="space-y-8" onSubmit={handleSubmit}>
+              <ImageDialog image={image || ""} handleImage={handleImage} />
+              
+              <DeliveryType
+                value={formData.delivery_type || ""}
+                onChange={(value) => setFormData({ ...formData, delivery_type: value })}
+              />
+
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Gender</label>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700"
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Unisex">Unisex</option>
+                  <option value="Children">Children</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Quantity</label>
+                <input
+                  type="number"
+                  name="quantity"
+                  placeholder="Number of items"
+                  value={formData.quantity}
+                  onChange={handleChange}
+                  required
+                  min="1"
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Description</label>
+                <textarea
+                  name="description"
+                  placeholder="Describe the clothing items (e.g., type, size, condition, colors)"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700 placeholder-gray-400"
+                />
+              </div>
+  
+              <div className="flex justify-center">
+                <DonateButton loading={loading} />
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      );
+    };
+
+    const DonateFood = () => {
+      const [formData, setFormData] = useState<FormData>({
+        delivery_type: "Pick",
+        description: "",
+        quantity: "",
+        expiration_date: "",
+      });
       const [loading, setLoading] = useState<boolean>(false);
 
       const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -782,18 +942,15 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
         setLoading(true);
 
         try {
-          // Get the current authenticated user
           const { data: { user } } = await supabase.auth.getUser();
-
           if (!user) {
             alert("Please log in to submit a donation");
             setLoading(false);
             return;
           }
 
-          // Validate required fields
           if (!formData.delivery_type || !['Pick', 'Drop'].includes(formData.delivery_type)) {
-            alert("Please select a delivery type (Pick up or Drop off)");
+            alert("Please select a delivery type");
             setLoading(false);
             return;
           }
@@ -804,7 +961,848 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
             return;
           }
 
-          // First, ensure user exists in public.users table
+          const { error: userError } = await supabase
+            .from("users")
+            .upsert([{
+              id: user.id,
+              email: user.email,
+              name: user.user_metadata?.name || user.email!.split('@')[0]
+            }], { onConflict: 'id' });
+
+          if (userError) {
+            console.error("Error creating user record:", userError);
+            alert("Error setting up user account. Please try logging out and back in.");
+            setLoading(false);
+            return;
+          }
+
+          const { error } = await supabase
+            .from("donations")
+            .insert([{
+              user_id: user.id,
+              category: "Non-perishable food",
+              ...formData
+            }]);
+
+          if (error) {
+            console.error("Error submitting donation:", error.message);
+            alert(`Error submitting donation: ${error.message}`);
+          } else {
+            alert(PopUpMessage);
+            setFormData({ delivery_type: "Pick", description: "", quantity: "", expiration_date: "" });
+            setTimeout(() => handlePage('Dashboard'), 1500);
+          }
+        } catch (err) {
+          console.error("Unexpected error:", err);
+          alert("An unexpected error occurred. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      return (
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-3xl shadow-xl border border-teal-100 p-10"
+          >
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-200">
+                <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+                Donate Non-Perishable Food
+              </h2>
+              <p className="text-gray-600">
+                Help fight hunger with your food donations
+              </p>
+            </div>
+  
+            <form className="space-y-8" onSubmit={handleSubmit}>
+              <ImageDialog image={image || ""} handleImage={handleImage} />
+              
+              <DeliveryType
+                value={formData.delivery_type || ""}
+                onChange={(value) => setFormData({ ...formData, delivery_type: value })}
+              />
+
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Quantity (in units/packages)</label>
+                <input
+                  type="number"
+                  name="quantity"
+                  placeholder="Number of items"
+                  value={formData.quantity}
+                  onChange={handleChange}
+                  required
+                  min="1"
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Expiration Date (Optional)</label>
+                <input
+                  type="date"
+                  name="expiration_date"
+                  value={formData.expiration_date}
+                  onChange={handleChange}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Description</label>
+                <textarea
+                  name="description"
+                  placeholder="Describe the food items (e.g., canned goods, pasta, rice, cereal)"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700 placeholder-gray-400"
+                />
+              </div>
+  
+              <div className="flex justify-center">
+                <DonateButton loading={loading} />
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      );
+    };
+
+    const DonateBooks = () => {
+      const [formData, setFormData] = useState<FormData>({
+        delivery_type: "Pick",
+        description: "",
+        quantity: "",
+      });
+      const [loading, setLoading] = useState<boolean>(false);
+
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+      };
+
+      const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user) {
+            alert("Please log in to submit a donation");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.delivery_type || !['Pick', 'Drop'].includes(formData.delivery_type)) {
+            alert("Please select a delivery type");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.description?.trim()) {
+            alert("Please provide a description");
+            setLoading(false);
+            return;
+          }
+
+          const { error: userError } = await supabase
+            .from("users")
+            .upsert([{
+              id: user.id,
+              email: user.email,
+              name: user.user_metadata?.name || user.email!.split('@')[0]
+            }], { onConflict: 'id' });
+
+          if (userError) {
+            console.error("Error creating user record:", userError);
+            alert("Error setting up user account. Please try logging out and back in.");
+            setLoading(false);
+            return;
+          }
+
+          const { error } = await supabase
+            .from("donations")
+            .insert([{
+              user_id: user.id,
+              category: "Books & educational materials",
+              ...formData
+            }]);
+
+          if (error) {
+            console.error("Error submitting donation:", error.message);
+            alert(`Error submitting donation: ${error.message}`);
+          } else {
+            alert(PopUpMessage);
+            setFormData({ delivery_type: "Pick", description: "", quantity: "" });
+            setTimeout(() => handlePage('Dashboard'), 1500);
+          }
+        } catch (err) {
+          console.error("Unexpected error:", err);
+          alert("An unexpected error occurred. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      return (
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-3xl shadow-xl border border-teal-100 p-10"
+          >
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-200">
+                <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+                Donate Books & Educational Materials
+              </h2>
+              <p className="text-gray-600">
+                Support education and learning opportunities
+              </p>
+            </div>
+  
+            <form className="space-y-8" onSubmit={handleSubmit}>
+              <ImageDialog image={image || ""} handleImage={handleImage} />
+              
+              <DeliveryType
+                value={formData.delivery_type || ""}
+                onChange={(value) => setFormData({ ...formData, delivery_type: value })}
+              />
+
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Quantity</label>
+                <input
+                  type="number"
+                  name="quantity"
+                  placeholder="Number of books/materials"
+                  value={formData.quantity}
+                  onChange={handleChange}
+                  required
+                  min="1"
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Description</label>
+                <textarea
+                  name="description"
+                  placeholder="Describe the books/materials (e.g., subjects, grade level, condition, titles)"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700 placeholder-gray-400"
+                />
+              </div>
+  
+              <div className="flex justify-center">
+                <DonateButton loading={loading} />
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      );
+    };
+
+    const DonateElectronics = () => {
+      const [formData, setFormData] = useState<FormData>({
+        delivery_type: "Pick",
+        description: "",
+        brand: "",
+      });
+      const [loading, setLoading] = useState<boolean>(false);
+
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+      };
+
+      const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user) {
+            alert("Please log in to submit a donation");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.delivery_type || !['Pick', 'Drop'].includes(formData.delivery_type)) {
+            alert("Please select a delivery type");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.description?.trim()) {
+            alert("Please provide a description");
+            setLoading(false);
+            return;
+          }
+
+          const { error: userError } = await supabase
+            .from("users")
+            .upsert([{
+              id: user.id,
+              email: user.email,
+              name: user.user_metadata?.name || user.email!.split('@')[0]
+            }], { onConflict: 'id' });
+
+          if (userError) {
+            console.error("Error creating user record:", userError);
+            alert("Error setting up user account. Please try logging out and back in.");
+            setLoading(false);
+            return;
+          }
+
+          const { error } = await supabase
+            .from("donations")
+            .insert([{
+              user_id: user.id,
+              category: "Electronics",
+              ...formData
+            }]);
+
+          if (error) {
+            console.error("Error submitting donation:", error.message);
+            alert(`Error submitting donation: ${error.message}`);
+          } else {
+            alert(PopUpMessage);
+            setFormData({ delivery_type: "Pick", description: "", brand: "" });
+            setTimeout(() => handlePage('Dashboard'), 1500);
+          }
+        } catch (err) {
+          console.error("Unexpected error:", err);
+          alert("An unexpected error occurred. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      return (
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-3xl shadow-xl border border-teal-100 p-10"
+          >
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-200">
+                <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+                Donate Electronics
+              </h2>
+              <p className="text-gray-600">
+                Give technology a second life and help bridge the digital divide
+              </p>
+            </div>
+  
+            <form className="space-y-8" onSubmit={handleSubmit}>
+              <ImageDialog image={image || ""} handleImage={handleImage} />
+              
+              <DeliveryType
+                value={formData.delivery_type || ""}
+                onChange={(value) => setFormData({ ...formData, delivery_type: value })}
+              />
+
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Brand (Optional)</label>
+                <input
+                  type="text"
+                  name="brand"
+                  placeholder="E.g., Apple, Samsung, Dell"
+                  value={formData.brand}
+                  onChange={handleChange}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Description</label>
+                <textarea
+                  name="description"
+                  placeholder="Describe the electronics (e.g., laptop, phone, tablet, condition, model, working status)"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700 placeholder-gray-400"
+                />
+              </div>
+  
+              <div className="flex justify-center">
+                <DonateButton loading={loading} />
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      );
+    };
+
+    const DonateFurniture = () => {
+      const [formData, setFormData] = useState<FormData>({
+        delivery_type: "Pick",
+        description: "",
+      });
+      const [loading, setLoading] = useState<boolean>(false);
+
+      const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+      };
+
+      const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user) {
+            alert("Please log in to submit a donation");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.delivery_type || !['Pick', 'Drop'].includes(formData.delivery_type)) {
+            alert("Please select a delivery type");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.description?.trim()) {
+            alert("Please provide a description");
+            setLoading(false);
+            return;
+          }
+
+          const { error: userError } = await supabase
+            .from("users")
+            .upsert([{
+              id: user.id,
+              email: user.email,
+              name: user.user_metadata?.name || user.email!.split('@')[0]
+            }], { onConflict: 'id' });
+
+          if (userError) {
+            console.error("Error creating user record:", userError);
+            alert("Error setting up user account. Please try logging out and back in.");
+            setLoading(false);
+            return;
+          }
+
+          const { error } = await supabase
+            .from("donations")
+            .insert([{
+              user_id: user.id,
+              category: "Furniture",
+              ...formData
+            }]);
+
+          if (error) {
+            console.error("Error submitting donation:", error.message);
+            alert(`Error submitting donation: ${error.message}`);
+          } else {
+            alert(PopUpMessage);
+            setFormData({ delivery_type: "Pick", description: "" });
+            setTimeout(() => handlePage('Dashboard'), 1500);
+          }
+        } catch (err) {
+          console.error("Unexpected error:", err);
+          alert("An unexpected error occurred. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      return (
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-3xl shadow-xl border border-teal-100 p-10"
+          >
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-200">
+                <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+                Donate Furniture
+              </h2>
+              <p className="text-gray-600">
+                Help furnish homes and create comfortable living spaces
+              </p>
+            </div>
+  
+            <form className="space-y-8" onSubmit={handleSubmit}>
+              <ImageDialog image={image || ""} handleImage={handleImage} />
+              
+              <DeliveryType
+                value={formData.delivery_type || ""}
+                onChange={(value) => setFormData({ ...formData, delivery_type: value })}
+              />
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Description</label>
+                <textarea
+                  name="description"
+                  placeholder="Describe the furniture (e.g., type, dimensions, condition, materials, color)"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700 placeholder-gray-400"
+                />
+              </div>
+  
+              <div className="flex justify-center">
+                <DonateButton loading={loading} />
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      );
+    };
+
+    const DonateMedicalSupplies = () => {
+      const [formData, setFormData] = useState<FormData>({
+        delivery_type: "Pick",
+        description: "",
+        quantity: "",
+        expiration_date: "",
+      });
+      const [loading, setLoading] = useState<boolean>(false);
+
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+      };
+
+      const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user) {
+            alert("Please log in to submit a donation");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.delivery_type || !['Pick', 'Drop'].includes(formData.delivery_type)) {
+            alert("Please select a delivery type");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.description?.trim()) {
+            alert("Please provide a description");
+            setLoading(false);
+            return;
+          }
+
+          const { error: userError } = await supabase
+            .from("users")
+            .upsert([{
+              id: user.id,
+              email: user.email,
+              name: user.user_metadata?.name || user.email!.split('@')[0]
+            }], { onConflict: 'id' });
+
+          if (userError) {
+            console.error("Error creating user record:", userError);
+            alert("Error setting up user account. Please try logging out and back in.");
+            setLoading(false);
+            return;
+          }
+
+          const { error } = await supabase
+            .from("donations")
+            .insert([{
+              user_id: user.id,
+              category: "Medical supplies",
+              ...formData
+            }]);
+
+          if (error) {
+            console.error("Error submitting donation:", error.message);
+            alert(`Error submitting donation: ${error.message}`);
+          } else {
+            alert(PopUpMessage);
+            setFormData({ delivery_type: "Pick", description: "", quantity: "", expiration_date: "" });
+            setTimeout(() => handlePage('Dashboard'), 1500);
+          }
+        } catch (err) {
+          console.error("Unexpected error:", err);
+          alert("An unexpected error occurred. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      return (
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-3xl shadow-xl border border-teal-100 p-10"
+          >
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-200">
+                <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+                Donate Medical Supplies
+              </h2>
+              <p className="text-gray-600">
+                Help provide essential medical care and health support
+              </p>
+            </div>
+  
+            <form className="space-y-8" onSubmit={handleSubmit}>
+              <ImageDialog image={image || ""} handleImage={handleImage} />
+              
+              <DeliveryType
+                value={formData.delivery_type || ""}
+                onChange={(value) => setFormData({ ...formData, delivery_type: value })}
+              />
+
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Quantity</label>
+                <input
+                  type="number"
+                  name="quantity"
+                  placeholder="Number of items"
+                  value={formData.quantity}
+                  onChange={handleChange}
+                  required
+                  min="1"
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Expiration Date (if applicable)</label>
+                <input
+                  type="date"
+                  name="expiration_date"
+                  value={formData.expiration_date}
+                  onChange={handleChange}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Description</label>
+                <textarea
+                  name="description"
+                  placeholder="Describe the medical supplies (e.g., first aid kits, bandages, medications, equipment)"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700 placeholder-gray-400"
+                />
+              </div>
+  
+              <div className="flex justify-center">
+                <DonateButton loading={loading} />
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      );
+    };
+
+    const DonateToysAndGames = () => {
+      const [formData, setFormData] = useState<FormData>({
+        delivery_type: "Pick",
+        description: "",
+      });
+      const [loading, setLoading] = useState<boolean>(false);
+
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+      };
+
+      const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user) {
+            alert("Please log in to submit a donation");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.delivery_type || !['Pick', 'Drop'].includes(formData.delivery_type)) {
+            alert("Please select a delivery type");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.description?.trim()) {
+            alert("Please provide a description");
+            setLoading(false);
+            return;
+          }
+
+          const { error: userError } = await supabase
+            .from("users")
+            .upsert([{
+              id: user.id,
+              email: user.email,
+              name: user.user_metadata?.name || user.email!.split('@')[0]
+            }], { onConflict: 'id' });
+
+          if (userError) {
+            console.error("Error creating user record:", userError);
+            alert("Error setting up user account. Please try logging out and back in.");
+            setLoading(false);
+            return;
+          }
+
+          const { error } = await supabase
+            .from("donations")
+            .insert([{
+              user_id: user.id,
+              category: "Toys & games",
+              ...formData
+            }]);
+
+          if (error) {
+            console.error("Error submitting donation:", error.message);
+            alert(`Error submitting donation: ${error.message}`);
+          } else {
+            alert(PopUpMessage);
+            setFormData({ delivery_type: "Pick", description: "" });
+            setTimeout(() => handlePage('Dashboard'), 1500);
+          }
+        } catch (err) {
+          console.error("Unexpected error:", err);
+          alert("An unexpected error occurred. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      return (
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-3xl shadow-xl border border-teal-100 p-10"
+          >
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-200">
+                <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+                Donate Toys & Games
+              </h2>
+              <p className="text-gray-600">
+                Bring joy and learning to children's lives
+              </p>
+            </div>
+  
+            <form className="space-y-8" onSubmit={handleSubmit}>
+              <ImageDialog image={image || ""} handleImage={handleImage} />
+              
+              <DeliveryType
+                value={formData.delivery_type || ""}
+                onChange={(value) => setFormData({ ...formData, delivery_type: value })}
+              />
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Description</label>
+                <textarea
+                  name="description"
+                  placeholder="Describe the toys/games (e.g., type, age range, condition, educational value)"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700 placeholder-gray-400"
+                />
+              </div>
+  
+              <div className="flex justify-center">
+                <DonateButton loading={loading} />
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      );
+    };
+
+    const DonateHygiene = () => {
+      const [formData, setFormData] = useState<FormData>({
+        delivery_type: "Pick",
+        description: "",
+      });
+      const [loading, setLoading] = useState<boolean>(false);
+
+      const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+      };
+
+      const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (!user) {
+            alert("Please log in to submit a donation");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.delivery_type || !['Pick', 'Drop'].includes(formData.delivery_type)) {
+            alert("Please select a delivery type");
+            setLoading(false);
+            return;
+          }
+
+          if (!formData.description?.trim()) {
+            alert("Please provide a description");
+            setLoading(false);
+            return;
+          }
+
           const { error: userError } = await supabase
             .from("users")
             .upsert([{
@@ -833,8 +1831,7 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
             alert(`Error submitting donation: ${error.message}`);
           } else {
             alert(PopUpMessage);
-            // Reset form and redirect to dashboard
-            setFormData({ delivery_type: "", description: "" });
+            setFormData({ delivery_type: "Pick", description: "" });
             setTimeout(() => handlePage('Dashboard'), 1500);
           }
         } catch (err) {
@@ -853,7 +1850,6 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
             transition={{ duration: 0.6 }}
             className="bg-white rounded-3xl shadow-xl border border-teal-100 p-10"
           >
-            {/* Header */}
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-200">
                 <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -868,10 +1864,7 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
               </p>
             </div>
   
-            <form
-              className="space-y-8"
-              onSubmit={handleSubmit}
-            >
+            <form className="space-y-8" onSubmit={handleSubmit}>
               <ImageDialog image={image || ""} handleImage={handleImage} />
               
               <DeliveryType
@@ -880,9 +1873,7 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
               />
               
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-gray-700">
-                  Description of Items
-                </label>
+                <label className="block text-sm font-semibold text-gray-700">Description</label>
                 <textarea
                   name="description"
                   placeholder="List of hygiene products (e.g., soap, toothpaste, shampoo, deodorant, toothbrushes)"
@@ -905,7 +1896,7 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
 
     const DonateHousehold = () => {
       const [formData, setFormData] = useState<FormData>({
-        delivery_type: "Pick", // Default to valid value
+        delivery_type: "Pick",
         description: "",
       });
       const [loading, setLoading] = useState<boolean>(false);
@@ -920,18 +1911,15 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
         setLoading(true);
 
         try {
-          // Get the current authenticated user
           const { data: { user } } = await supabase.auth.getUser();
-
           if (!user) {
             alert("Please log in to submit a donation");
             setLoading(false);
             return;
           }
 
-          // Validate required fields
           if (!formData.delivery_type || !['Pick', 'Drop'].includes(formData.delivery_type)) {
-            alert("Please select a delivery type (Pick up or Drop off)");
+            alert("Please select a delivery type");
             setLoading(false);
             return;
           }
@@ -942,7 +1930,6 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
             return;
           }
 
-          // First, ensure user exists in public.users table
           const { error: userError } = await supabase
             .from("users")
             .upsert([{
@@ -971,8 +1958,7 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
             alert(`Error submitting donation: ${error.message}`);
           } else {
             alert(PopUpMessage);
-            // Reset form and redirect to dashboard
-            setFormData({ delivery_type: "", description: "" });
+            setFormData({ delivery_type: "Pick", description: "" });
             setTimeout(() => handlePage('Dashboard'), 1500);
           }
         } catch (err) {
@@ -984,138 +1970,54 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
       };
 
       return (
-        <form
-          className="flex flex-col items-center justify-center gap-4 p-6 rounded-lg bg-transparent"
-          onSubmit={handleSubmit}
-        >
-          <ImageDialog image={image || ""} handleImage={handleImage} />
-          <DeliveryType
-            value={formData.delivery_type || ""}
-            onChange={(value) => setFormData({ ...formData, delivery_type: value })}
-          />
-          <textarea
-            name="description"
-            placeholder="Description of household items"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            className="w-full max-w-md p-2 border border-gray-300 rounded"
-          ></textarea>
-          <DonateButton loading={loading} />
-        </form>
-      );
-    };
-
-    const DonateToysAndGames = () => {
-      const [formData, setFormData] = useState<FormData>({
-        delivery_type: "Pick", // Default to valid value
-        description: "",
-        // age_group: "",
-      });
-      const [loading, setLoading] = useState<boolean>(false);
-
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-      };
-
-      const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-
-        try {
-          // Get the current authenticated user
-          const { data: { user } } = await supabase.auth.getUser();
-
-          if (!user) {
-            alert("Please log in to submit a donation");
-            setLoading(false);
-            return;
-          }
-
-          // Validate required fields
-          if (!formData.delivery_type || !['Pick', 'Drop'].includes(formData.delivery_type)) {
-            alert("Please select a delivery type (Pick up or Drop off)");
-            setLoading(false);
-            return;
-          }
-
-          if (!formData.description?.trim()) {
-            alert("Please provide a description");
-            setLoading(false);
-            return;
-          }
-
-          // First, ensure user exists in public.users table
-          const { error: userError } = await supabase
-            .from("users")
-            .upsert([{
-              id: user.id,
-              email: user.email,
-              name: user.user_metadata?.name || user.email!.split('@')[0]
-            }], { onConflict: 'id' });
-
-          if (userError) {
-            console.error("Error creating user record:", userError);
-            alert("Error setting up user account. Please try logging out and back in.");
-            setLoading(false);
-            return;
-          }
-
-          const { error } = await supabase
-            .from("donations")
-            .insert([{
-              user_id: user.id,
-              category: "Toys and Games",
-              ...formData
-            }]);
-
-          if (error) {
-            console.error("Error submitting donation:", error.message);
-            alert(`Error submitting donation: ${error.message}`);
-          } else {
-            alert(PopUpMessage);
-            // Reset form and redirect to dashboard
-            setFormData({ delivery_type: "", description: "" });
-            setTimeout(() => handlePage('Dashboard'), 1500);
-          }
-        } catch (err) {
-          console.error("Unexpected error:", err);
-          alert("An unexpected error occurred. Please try again.");
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      return (
-        <form
-          className="flex flex-col items-center justify-center gap-4 p-6 rounded-lg bg-transparent"
-          onSubmit={handleSubmit}
-        >
-          <ImageDialog image={image || ""} handleImage={handleImage} />
-          <DeliveryType
-            value={formData.delivery_type || ""}
-            onChange={(value) => setFormData({ ...formData, delivery_type: value })}
-          />
-          <textarea
-            name="description"
-            placeholder="Description of toys/games"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            className="w-full max-w-md p-2 border border-gray-300 rounded"
-          ></textarea>
-          <input
-            type="text"
-            name="age_group"
-            placeholder="Age Group (e.g., 3-7 years)"
-            value=""
-            onChange={handleChange}
-            className="w-full max-w-md p-2 border border-gray-300 rounded"
-          />
-
-          <DonateButton loading={loading} />
-        </form>
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-3xl shadow-xl border border-teal-100 p-10"
+          >
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-teal-200">
+                <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+                Donate Household Items
+              </h2>
+              <p className="text-gray-600">
+                Help create comfortable homes with essential household items
+              </p>
+            </div>
+  
+            <form className="space-y-8" onSubmit={handleSubmit}>
+              <ImageDialog image={image || ""} handleImage={handleImage} />
+              
+              <DeliveryType
+                value={formData.delivery_type || ""}
+                onChange={(value) => setFormData({ ...formData, delivery_type: value })}
+              />
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Description</label>
+                <textarea
+                  name="description"
+                  placeholder="Describe the household items (e.g., kitchenware, bedding, cleaning supplies, small appliances)"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-4 focus:ring-teal-100 transition-all duration-300 text-gray-700 placeholder-gray-400"
+                />
+              </div>
+  
+              <div className="flex justify-center">
+                <DonateButton loading={loading} />
+              </div>
+            </form>
+          </motion.div>
+        </div>
       );
     };
 
@@ -1208,13 +2110,13 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
             animate={{ opacity: [0, 0.3, 0.8, 0.9, 1], x: 4 }}
             className="mt-50"
             transition={{
-              delay: 0.15, // Add staggered delay based on index
+              delay: 0.15,
               type: "spring",
               stiffness: 300,
               damping: 35,
               mass: 5,
               duration: 0.2,
-            }}><DonateElectronics />
+            }}><DonateClothing />
           </motion.div> : null}
         {selectedGoods === "Non - perishable food" ?
           <motion.div
@@ -1222,13 +2124,13 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
             animate={{ opacity: 1, x: 3 }}
             className="mt-50"
             transition={{
-              delay: 0.5, // Add staggered delay based on index
+              delay: 0.5,
               type: "spring",
               stiffness: 300,
               damping: 35,
               mass: 20,
               duration: 0.2,
-            }}><DonateElectronics />
+            }}><DonateFood />
           </motion.div> : null}
         {selectedGoods === "Books & educatutional materials" ?
           <motion.div
@@ -1236,20 +2138,20 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
             animate={{ opacity: 1, x: 3 }}
             className="mt-50"
             transition={{
-              delay: 0.5, // Add staggered delay based on index
+              delay: 0.5,
               type: "spring",
               stiffness: 300,
               damping: 35,
               mass: 20,
               duration: 0.2,
-            }}><DonateElectronics />
+            }}><DonateBooks />
           </motion.div> : null}
         {selectedGoods === "Electronics" ? <motion.div
           initial={{ opacity: 0, }}
           animate={{ opacity: 1, }}
           className="mt-50"
           transition={{
-            delay: 0.5, // Add staggered delay based on index
+            delay: 0.5,
             type: "spring",
             stiffness: 300,
             damping: 35,
@@ -1261,61 +2163,61 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
           animate={{ opacity: 1, }}
           className="mt-50"
           transition={{
-            delay: 0.5, // Add staggered delay based on index
+            delay: 0.5,
             type: "spring",
             stiffness: 300,
             damping: 35,
             mass: 20,
             duration: 0.2,
-          }}><DonateElectronics /></motion.div> : null}
+          }}><DonateFurniture /></motion.div> : null}
         {selectedGoods === "Medical supplies" ? <motion.div
           initial={{ opacity: 0, }}
           animate={{ opacity: 1, }}
           className="mt-50"
           transition={{
-            delay: 0.5, // Add staggered delay based on index
+            delay: 0.5,
             type: "spring",
             stiffness: 300,
             damping: 35,
             mass: 20,
             duration: 0.2,
-          }}><DonateElectronics /></motion.div> : null}
+          }}><DonateMedicalSupplies /></motion.div> : null}
         {selectedGoods === "Toys & games" ? <motion.div
           initial={{ opacity: 0, }}
           animate={{ opacity: 1, }}
           className="mt-50"
           transition={{
-            delay: 0.5, // Add staggered delay based on index
+            delay: 0.5,
             type: "spring",
             stiffness: 300,
             damping: 35,
             mass: 20,
             duration: 0.2,
-          }}><DonateElectronics /></motion.div> : null}
+          }}><DonateToysAndGames /></motion.div> : null}
         {selectedGoods === "Hygiene" ? <motion.div
           initial={{ opacity: 0, }}
           animate={{ opacity: 1, }}
           className="mt-50"
           transition={{
-            delay: 0.5, // Add staggered delay based on index
+            delay: 0.5,
             type: "spring",
             stiffness: 300,
             damping: 35,
             mass: 20,
             duration: 0.2,
-          }}><DonateElectronics /></motion.div> : null}
+          }}><DonateHygiene /></motion.div> : null}
         {selectedGoods === "Household" ? <motion.div
           initial={{ opacity: 0, }}
           animate={{ opacity: 1, }}
           className="mt-50"
           transition={{
-            delay: 0.5, // Add staggered delay based on index
+            delay: 0.5,
             type: "spring",
             stiffness: 300,
             damping: 35,
             mass: 20,
             duration: 0.2,
-          }}><DonateElectronics /></motion.div> : null}
+          }}><DonateHousehold /></motion.div> : null}
       </div>
     )
   }
@@ -1542,6 +2444,38 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
     const [image, setImage] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false);
 
+    const GoBackService = () => {
+      return (
+        <motion.div
+          initial={{ x: -3 }}
+          animate={{ x: 0 }}
+          transition={{
+            delay: 0.1,
+            type: "spring",
+            stiffness: 400,
+            damping: 300,
+            mass: 40,
+            duration: 0.5,
+          }}
+          className="flex justify-start mb-6"
+        >
+          <div className="flex-inline text-lg text-gray-800 text-left font-bold">
+            <Button
+              size="small"
+              fullWidth={false}
+              className="font-bold"
+              disableRipple={true}
+              sx={{ backgroundColor: "transparent", textTransform: "none", color: "gray.800" }}
+              onClick={() => handleDonationType("none")}
+            >
+              <Image src={backButtonImage} alt="Back" width={24} height={24} />
+            </Button>
+            Donate | Service
+          </div>
+        </motion.div>
+      )
+    }
+
     /// Image handler ///
     function handleImage(e: React.ChangeEvent<HTMLInputElement>) {
       const file = e.target.files?.[0];
@@ -1719,6 +2653,7 @@ const DonatePage: React.FC<DonatePageProps> = ({ handlePage, scrollToTop }) => {
 
     return (
       <div className="max-w-4xl mx-auto">
+        <GoBackService />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -101,11 +101,7 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? 'backdrop-blur-lg bg-white/90 shadow-lg border-b border-gray-200/30'
-            : 'gradient-hero'
-        } ${sx?.className || ''}`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-lg bg-white/90 shadow-lg border-b border-gray-200/30 ${sx?.className || ''}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -118,9 +114,7 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
               <div className="gradient-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center font-bold shadow-lg">
                 WC
               </div>
-              <span className={`bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent text-3xl font-bold transition-colors duration-300 ${
-                !isScrolled ? 'text-white' : ' bg-gradient-to-r from-purple-600 to-orange-600 bg-clip-text text-transparent'
-              }`}>
+              <span className="bg-gradient-to-r from-teal-600 to-teal-200 via-teal-400 bg-clip-text text-transparent text-3xl font-bold transition-colors duration-300">
                 WeCare
               </span>
             </motion.div>
@@ -138,11 +132,7 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
                     className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
                       currentPage === item.page
                         ? 'theme-bg-accent text-gray-700 shadow-md'
-                        : `${
-                            isScrolled
-                              ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
-                              : 'text-white hover:text-white hover:theme-bg-tertiary'
-                          }`
+                        : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
                     }`}
                   >
                     <item.icon className="h-5 w-5" />
@@ -161,12 +151,8 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
                     onClick={() => handleNavClick(item.page)}
                     className={`px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
                       currentPage === item.page
-                        ? 'bg-transparent text-white'
-                        : `${
-                            isScrolled
-                              ? 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
-                              : 'text-white hover:text-white hover:bg-white/10'
-                          }`
+                        ? 'bg-transparent text-gray-700'
+                        : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
                     }`}
                   >
                     {item.name}
@@ -188,11 +174,11 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
                         variant="contained"
                         className="btn-primary shadow-lg"
                         sx={{
-                          backgroundColor: isScrolled ? "var(--primary-color)" : "white",
-                          color: isScrolled ? "white" : "white",
-                          border: isScrolled ? "none" : "2px solid var(--primary-color)",
+                          backgroundColor: "var(--primary-color)",
+                          color: "white",
+                          border: "none",
                           '&:hover': {
-                            backgroundColor: isScrolled ? "var(--primary-dark)" : "var(--primary-color)",
+                            backgroundColor: "var(--primary-dark)",
                             color: "white",
                             transform: "translateY(-2px)",
                             boxShadow: "var(--shadow-lg)",
@@ -215,16 +201,12 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ currentPage, handlePage, scrollTo
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`p-2 rounded-lg ${
-                  isScrolled
-                    ? 'theme-text-primary hover:bg-gray-100'
-                    : 'theme-text-primary hover:bg-white/10'
-                }`}
+                className="p-2 rounded-lg text-gray-600 hover:bg-gray-100"
               >
                 {isMobileMenuOpen ? (
-                  <CloseIcon className={`h-6 w-6 ${isScrolled ? 'text-gray-600' : 'text-white'}`} />
+                  <CloseIcon className="h-6 w-6 text-gray-600" />
                 ) : (
-                  <MenuIcon className={`h-6 w-6 ${isScrolled ? 'text-gray-600' : 'text-white'}`} />
+                  <MenuIcon className="h-6 w-6 text-gray-600" />
                 )}
               </motion.button>
             </div>

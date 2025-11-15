@@ -1,33 +1,11 @@
-[00:00:00.684] Server  LOG      ✓ Ready in 480ms
-[00:00:08.268] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:08.642] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:1 (2.81.1) 2025-11-12T23:23:14.638Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:00:08.642] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:2 (2.81.1) 2025-11-12T23:23:14.647Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:00:08.642] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:3 (2.81.1) 2025-11-12T23:23:14.649Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:00:08.642] Browser WARN    componentWillUpdate has been renamed, and is not recommended for use. See https://react.dev/link/unsafe-component-lifecycles for details.
+[00:00:00.570] Server  LOG      ✓ Ready in 396ms
+[00:00:08.128] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:08.352] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:1 (2.81.1) 2025-11-15T04:50:35.742Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+[00:00:08.352] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:2 (2.81.1) 2025-11-15T04:50:35.747Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+[00:00:08.352] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:3 (2.81.1) 2025-11-15T04:50:35.747Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
+[00:00:08.352] Browser WARN    componentWillUpdate has been renamed, and is not recommended for use. See https://react.dev/link/unsafe-component-lifecycles for details.
 
 * Move data fetching code or side effects to componentDidUpdate.
 * Rename componentWillUpdate to UNSAFE_componentWillUpdate to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.
 
 Please update the following components: %s Lottie
-[00:01:19.226] Server  LOG      ✓ Compiled in 84ms
-[00:01:38.440] Server  LOG      ✓ Compiled in 131ms
-[00:03:09.988] Server  LOG      ✓ Compiled in 71ms
-[00:03:10.519] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:4 (2.81.1) 2025-11-12T23:26:16.211Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:03:16.049] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:03:16.226] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:1 (2.81.1) 2025-11-12T23:26:22.327Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:03:16.226] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:2 (2.81.1) 2025-11-12T23:26:22.334Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:03:16.226] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:3 (2.81.1) 2025-11-12T23:26:22.334Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:03:16.226] Browser WARN    componentWillUpdate has been renamed, and is not recommended for use. See https://react.dev/link/unsafe-component-lifecycles for details.
-
-* Move data fetching code or side effects to componentDidUpdate.
-* Rename componentWillUpdate to UNSAFE_componentWillUpdate to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.
-
-Please update the following components: %s Lottie
-[00:03:59.402] Server  LOG      ✓ Compiled in 46ms
-[00:03:59.520] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:4 (2.81.1) 2025-11-12T23:27:05.627Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:05:16.627] Server  LOG      ✓ Compiled in 111ms
-[00:05:17.521] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:5 (2.81.1) 2025-11-12T23:28:22.848Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:05:43.171] Server  LOG      ✓ Compiled in 55ms
-[00:05:43.519] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:6 (2.81.1) 2025-11-12T23:28:49.389Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
-[00:06:16.446] Server  LOG      ✓ Compiled in 41ms
-[00:06:17.520] Browser WARN    GoTrueClient@sb-fipxnqsreazxexlemojq-auth-token:7 (2.81.1) 2025-11-12T23:29:22.667Z Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.
