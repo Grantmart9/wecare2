@@ -26,7 +26,7 @@ const WavyText: React.FC = () => {
       const { chars } = splitText(element)
       containerRef.current.style.visibility = "visible"
 
-      const staggerDelay = 0.2
+      const staggerDelay = 0.3
       const staggerFn = stagger(staggerDelay, { startDelay: -staggerDelay * chars.length })
 
       chars.forEach((char, index) => {
